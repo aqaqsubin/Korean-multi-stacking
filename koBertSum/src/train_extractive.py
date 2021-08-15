@@ -193,8 +193,17 @@ def test_ext(args, device_id, pt, step):
     test_iter = data_loader.Dataloader(args, load_dataset(args, 'test', shuffle=False),
                                        args.test_batch_size, device,
                                        shuffle=False, is_test=True)
+    valid_iter = data_loader.Dataloader(args, load_dataset(args, 'valid', shuffle=False),
+                                       args.test_batch_size, device,
+                                       shuffle=False, is_test=True)
+    train_iter = data_loader.Dataloader(args, load_dataset(args, 'train', shuffle=False),
+                                       args.test_batch_size, device,
+                                       shuffle=False, is_test=True)
+
     trainer = build_trainer(args, device_id, model, None)
-    trainer.test(test_iter, step)
+    trainer.test(test_iter, step, valid='test')
+    trainer.test(valid_iter, step, type='valid')
+    trainer.test(train_iter, step, type='train')
 
 def train_ext(args, device_id):
     if (args.world_size > 1):

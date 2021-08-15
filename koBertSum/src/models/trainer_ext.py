@@ -198,7 +198,7 @@ class Trainer(object):
             return stats
 
  
-    def test(self, test_iter, step, cal_lead=False, cal_oracle=False):
+    def test(self, test_iter, step, cal_lead=False, cal_oracle=False, type='test'):
         """ Validate model.
             valid_iter: validate data iterator
         Returns:
@@ -226,10 +226,10 @@ class Trainer(object):
             self.model.eval()
         stats = Statistics()
 
-        can_path = '%s_step%d.candidate' % (self.args.result_path, step)
-        gold_path = '%s_step%d.gold' % (self.args.result_path, step)
-        src_path = '%s_step%d.src' % (self.args.result_path, step)
-        cand_num_path = '%s_step%d.candidate_sent_num' % (self.args.result_path, step)
+        can_path = '%s_step%d_%s.candidate' % (self.args.result_path, step, type)
+        gold_path = '%s_step%d_%s.gold' % (self.args.result_path, step, type)
+        src_path = '%s_step%d_%s.src' % (self.args.result_path, step, type)
+        cand_num_path = '%s_step%d_%s.candidate_sent_num' % (self.args.result_path, step, type)
 
         with open(src_path, 'w') as save_src:
             with open(can_path, 'w') as save_pred:
